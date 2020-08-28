@@ -11,15 +11,17 @@ $(document).ready(function() {
             url: "https://flynn.boolean.careers/exercises/api/array/music",
             method: "GET",
             success: function (risposta){
-                // compilo il template utilizzando Handlebars.compile
-                var source = $('#entry-template').html();
-                var template = Handlebars.compile(source);
-                // il template compilato va nell'HTML, in questo caso ho specificato di prendere il primo elemento di response (contenuno nell'API)
-                var html = template(risposta.response[0]);
+            // eseguo un ciclo for per per tante volte quante sono le nostre risposte (rispota.response.length) creando così tutti i template che mi servono e appendendoli nel mio DOC
+                for (var i = 0; i < risposta.response.length; i++){
+                    var source = $("#entry-template").html();
+                        // compilo il template utilizzando Handlebars.compile
+                    var template = Handlebars.compile(source);
 
-                // lo appendo al div con class "cd" nel mio DOC
-                $('.cd').append(html);
+                    var context = risposta.response[i];
+                    var html = template(context);
+                    // come ultimo passaggio all'interno del ciclo for appendo il template generato
+                    $('.cds-container').append(html);
             }
         }
-    );
+    });
 });
